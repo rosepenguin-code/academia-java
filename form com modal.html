@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="pt">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Formulário</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #fceefc;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+    }
+
+    .form-container {
+      background-color: #fff0fa;
+      border: 2px dashed #e97bd3;
+      border-radius: 20px;
+      padding: 30px;
+      max-width: 500px;
+      margin: 50px auto;
+      box-shadow: 0 0 15px #f3b7e8;
+    }
+
+    .btn-fofo {
+      background-color: #ff94da;
+      border: none;
+      color: white;
+      font-weight: bold;
+    }
+
+    .btn-fofo:hover {
+      background-color: #ff73c6;
+    }
+
+    h2 {
+      color: #d63384;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="form-container text-center">
+    <h2>💌 Formulário</h2>
+    <form id="formFofo">
+      <div class="mb-3 text-start">
+        <label for="nome" class="form-label" required>Nome:</label>
+        <input type="text" class="form-control" id="nome" placeholder="Escreve o teu nome" required>
+      </div>
+
+      <div class="mb-3 text-start">
+        <label for="email" class="form-label">Email:</label>
+        <input type="email" class="form-control" id="email" placeholder="O teu email">
+      </div>
+
+      <button type="button" class="btn btn-fofo" data-bs-toggle="modal" data-bs-target="#modalFofo">
+        Enviar 💖
+      </button>
+    </form>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="modalFofo" tabindex="-1" aria-labelledby="modalFofoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content" style="border-radius: 15px;">
+        <div class="modal-header" style="background-color: #ffe1f2;">
+          <h5 class="modal-title" id="modalFofoLabel">Confirmar envio</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body text-center">
+          Queres mesmo enviar este formulário? 🥺
+        </div>
+        <div class="modal-footer justify-content-center">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-fofo" id="confirmarFofo">Sim, enviar!</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.getElementById('confirmarFofo').addEventListener('click', function () {
+      document.getElementById('formFofo').submit();
+    });
+  </script>
+</body>
+</html>

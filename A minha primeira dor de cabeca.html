@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="pt">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>1ยบ Form com Bootstrap</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    .form-container {
+      background-color: #ed84f7;
+      padding: 30px;
+      border-radius: 10px;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    .btn-enviar {
+      background-color: #d9534f;
+      color: white;
+      border: none;
+    }
+
+    .btn-enviar:hover {
+      background-color: #c9302c;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class="container mt-5">
+    <span style="font-size: 99px; font-weight: bold;">
+      <span style="color: orange;">&lt;Up</span><span style="color: black;">Academy_</span>
+    </span>
+    <h4 class="mt-3"style="color: orange;"></span>LEARNING FOR SUCCESS</h4>
+
+    <!-- Aqui foi onde alterei -->
+    <h2 class="mt-4"style="color:rgb(35, 56, 241);"> 1ยบ Form com Bootstrap</h2>
+
+    <form class="form-container mt-4">
+      <div class="mb-3 text-start">
+        <label for="email" class="form-label">Email:</label>
+        <input type="email" class="form-control" id="email" placeholder="O seu Email">
+      </div>
+
+      <div class="mb-3 text-start">
+        <label for="address" class="form-label">Address:</label>
+        <input type="text" class="form-control" id="address" placeholder="Address">
+      </div>
+
+      <div class="mb-3 text-start">
+        <label for="name" class="form-label">Name:</label>
+        <input type="text" class="form-control" id="name" placeholder="O seu Nome">
+      </div>
+
+      <div class="mb-3 text-start">
+        <label for="number" class="form-label">Number:</label>
+        <input type="number" class="form-control" id="number" placeholder="Number">
+      </div>
+
+      <div class="mb-3 text-start">
+        <label for="password" class="form-label">Password:</label>
+        <input type="password" class="form-control" id="password" placeholder="Password">
+      </div>
+
+      <div class="mb-3 text-start">
+        <label class="form-label me-3">Male:</label>
+        <input type="radio" name="gender" value="male" class="form-check-input me-3">
+        <label class="form-label me-3">Female:</label>
+        <input type="radio" name="gender" value="female" class="form-check-input me-3">
+        <label class="form-label me-3">Other:</label>
+        <input type="radio" name="gender" value="other" class="form-check-input">
+      </div>
+
+      <div class="mb-3 text-start">
+        <label for="clube" class="form-label">Clube:</label>
+        <select class="form-select" id="clube">
+          <option>Benfica</option>
+          <option>Sporting</option>
+          <option>Porto</option>
+          <option>Outro</option>
+        </select>
+      </div>
+
+      <div class="form-check text-start mb-3">
+        <input type="checkbox" class="form-check-input" id="concordo">
+        <label class="form-check-label" for="concordo">Concordo</label>
+      </div>
+
+      <button type="submit" class="btn btn-enviar">Enviar</button>
+    </form>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
