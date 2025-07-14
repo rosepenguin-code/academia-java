@@ -1,0 +1,62 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #f0f0f0;
+  text-align: center;
+  padding: 30px;
+}
+
+.container {
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  width: 300px;
+  margin: auto;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+}
+
+img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+input {
+  width: 80%;
+  padding: 8px;
+  margin-bottom: 10px;
+}
+
+button {
+  margin: 5px;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+button:first-child {
+  background-color: #ccc;
+}
+
+button:last-child {
+  background-color: #4CAF50;
+  color: white;
+}
+body {
+  background-image: url('https://i.postimg.cc/66bzggtT/Imagem-para-fundo-de-tela-amor-por-livros-leitura.png');
+  background-size: cover;      /* A imagem cobre toda a área */
+  background-position: center; /* Centraliza a imagem */
+  background-repeat: no-repeat; /* Não repete a imagem */
+  min-height: 100vh;           /* Garante altura total da viewport */
+  margin: 0;
+  font-family: Arial, sans-serif;
+
+}.container {
+  background-color: rgba(255, 255, 255, 0.8); /* branco com transparência */
+  padding: 20px;
+  border-radius: 15px;
+  width: 300px;
+  margin: auto;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+}
+

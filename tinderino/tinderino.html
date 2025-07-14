@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <title>Tinderino de Livros</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <input type="text" id="pesquisa" placeholder="Pesquisar livros..." />
+    <button onclick="pesquisarLivros()">Pesquisar</button>
+
+    <div class="card" id="livro-card">
+      <img id="capa" src="" alt="Capa do livro" />
+      <h1 id="titulo">Título</h1>
+      <p id="descricao">Descrição</p>
+      <div class="botoes">
+        <button onclick="passarLivro()">Passar</button>
+        <button onclick="gostarLivro()">Gostei</button>
+      </div>
+      <a id="link" href="#" target="_blank">Mais detalhes</a>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
