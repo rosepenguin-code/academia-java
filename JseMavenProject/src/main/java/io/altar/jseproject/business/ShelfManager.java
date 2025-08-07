@@ -3,33 +3,52 @@ package io.altar.jseproject.business;
 import io.altar.jseproject.model.Shelf;
 import io.altar.jseproject.model.Product;
 import io.altar.jseproject.repositories.ShelfRepository;
+import io.altar.jseproject.repositories.ProductRepository;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.util.List;
+import java.util.Optional;
 
-public class ShelfManager {
-    private final ShelfRepository repository = ShelfRepository.getInstance();
+@ApplicationScoped
+public class ShelfManager extends EntityManager<Shelf> {
 
-    public void createShelf(String localizacao, int capacidade, double precoDiario, Product produto) {
-        Shelf s = new Shelf(localizacao, capacidade, precoDiario);
-        s.setProduto(produto);
-        repository.create(s);
-        System.out.println("Prateleira criada: " + s);
-    }
+    @Inject
+    ShelfRepository repository;
 
-    public void listShelves() {
-        List<Shelf> prateleiras = repository.readAll();
-        if (prateleiras.isEmpty()) {
-            System.out.println("Nenhuma prateleira disponível.");
-        } else {
-            prateleiras.forEach(System.out::println);
+    @Inject
+    ProductRepository productRepo;
+
+    @Override
+    public long create(Shelf shelf) {
+        if (shelf.getProduto() != null && shelf.getProduto().getId() > 0) {
+            Optional<Product> produto = productRepo.readById(shelf.getProduto().getId());
+            produto.ifPresent(shelf::setProduto);
         }
+        return repository.create(shelf);
     }
 
-    public void saveShelves() {
-        repository.saveToFile();
+    @Override
+    public List<Shelf> readAll() {
+        return repository.readAll();
     }
 
-    public void loadShelves(List<Product> produtos) {
-        repository.loadFromFile(produtos);
+    @Override
+    public Optional<Shelf> readById(long id) {
+        return repository.readById(id);
+    }
+
+    @Override
+    public void update(Shelf shelf) {
+        if (shelf.getProduto() != null && shelf.getProduto().getId() > 0) {
+            Optional<Product> produto = productRepo.readById(shelf.getProduto().getId());
+            produto.ifPresent(shelf::setProduto);
+        }
+        repository.update(shelf);
+    }
+
+    @Override
+    public void delete(long id) {
+        repository.delete(id);
     }
 }

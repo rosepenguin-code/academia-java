@@ -4,22 +4,17 @@ import io.altar.jseproject.model.Product;
 import io.altar.jseproject.repositories.interfaces.ProductRepositoryCRUD_Interface;
 import io.altar.jseproject.integration.ProductDataHandler;
 
+import javax.enterprise.context.ApplicationScoped;
 import java.util.List;
 
+@ApplicationScoped
 public class ProductRepository extends EntityRepository<Product> implements ProductRepositoryCRUD_Interface {
 
-    private static final ProductRepository INSTANCE = new ProductRepository();
     private final ProductDataHandler dataHandler = new ProductDataHandler();
-
-    private ProductRepository() {}
-
-    public static ProductRepository getInstance() {
-        return INSTANCE;
-    }
 
     @Override
     public List<Long> getShelfIdsByProductId(long productId) {
-        // Podes implementar isto depois com ligação às shelves
+        // Placeholder, como tinhas
         return null;
     }
 

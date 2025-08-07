@@ -2,7 +2,8 @@ package io.altar.jseproject.main;
 
 import io.altar.jseproject.business.ProductManager;
 import io.altar.jseproject.business.ShelfManager;
-import io.altar.jseproject.controller.Controller;
+import io.altar.jseproject.controllers.Controller;
+
 import java.util.Scanner;
 
 public class Main {

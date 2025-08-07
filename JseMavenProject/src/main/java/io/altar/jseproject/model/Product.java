@@ -5,6 +5,9 @@ public class Product extends Entity {
 	private double preco;
 	private boolean temIVA;
 	private double discount; // Valor entre 0.0 e 1.0
+	
+	
+	public Product() {}
 
 	// Construtor
 	public Product(String nome, double preco, boolean temIVA) {

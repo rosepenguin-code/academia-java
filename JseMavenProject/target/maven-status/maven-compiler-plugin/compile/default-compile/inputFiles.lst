@@ -1,6 +1,11 @@
+C:\Users\AnaLe\eclipse-workspace\JseMavenProject\src\main\java\io\altar\jseproject\App.java
+C:\Users\AnaLe\eclipse-workspace\JseMavenProject\src\main\java\io\altar\jseproject\business\EntityManager.java
 C:\Users\AnaLe\eclipse-workspace\JseMavenProject\src\main\java\io\altar\jseproject\business\ProductManager.java
 C:\Users\AnaLe\eclipse-workspace\JseMavenProject\src\main\java\io\altar\jseproject\business\ShelfManager.java
-C:\Users\AnaLe\eclipse-workspace\JseMavenProject\src\main\java\io\altar\jseproject\controller\Controller.java
+C:\Users\AnaLe\eclipse-workspace\JseMavenProject\src\main\java\io\altar\jseproject\controllers\Controller.java
+C:\Users\AnaLe\eclipse-workspace\JseMavenProject\src\main\java\io\altar\jseproject\controllers\EntityController.java
+C:\Users\AnaLe\eclipse-workspace\JseMavenProject\src\main\java\io\altar\jseproject\controllers\ProductController.java
+C:\Users\AnaLe\eclipse-workspace\JseMavenProject\src\main\java\io\altar\jseproject\controllers\ShelfController.java
 C:\Users\AnaLe\eclipse-workspace\JseMavenProject\src\main\java\io\altar\jseproject\integration\ProductDataHandler.java
 C:\Users\AnaLe\eclipse-workspace\JseMavenProject\src\main\java\io\altar\jseproject\integration\ShelfDataHandler.java
 C:\Users\AnaLe\eclipse-workspace\JseMavenProject\src\main\java\io\altar\jseproject\main\Main.java

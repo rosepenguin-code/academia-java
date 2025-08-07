@@ -19,7 +19,7 @@ public abstract class EntityRepository<T extends Entity> {
 
     // Criar entidade (adicionar e atribuir id se for zero)
     public long create(T entity) {
-        if (entity.getId() == 0) {
+    	if (entity.getId() <= 0) {
             entity.setId(getNextId());
         }
         entities.add(entity);
@@ -59,7 +59,7 @@ public abstract class EntityRepository<T extends Entity> {
 
     // Encontrar entidade por ID com Optional
     public Optional<T> readById(long id) {
-        for (T entity : entities) {
+        for (T entity : entities) { 
             if (entity.getId() == id) {
                 return Optional.of(entity);
             }

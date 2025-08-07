@@ -1,34 +1,52 @@
 package io.altar.jseproject.business;
 
 import io.altar.jseproject.model.Product;
+import io.altar.jseproject.model.Shelf;
 import io.altar.jseproject.repositories.ProductRepository;
+import io.altar.jseproject.repositories.ShelfRepository;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.util.List;
+import java.util.Optional;
 
-public class ProductManager {
-    private final ProductRepository repository = ProductRepository.getInstance();
+@ApplicationScoped
+public class ProductManager extends EntityManager<Product> {
 
-    public void createProduct(String nome, double preco, boolean temIVA) {
-        Product p = new Product(nome, preco, temIVA);
-        repository.create(p);
-        System.out.println("Produto criado: " + p);
+    @Inject
+    ProductRepository repository;
+
+    @Inject
+    ShelfRepository shelfRepo;
+
+    @Override
+    public long create(Product entity) {
+        return repository.create(entity);
     }
 
-    public void listProducts() {
-        List<Product> produtos = repository.readAll();
-        if (produtos.isEmpty()) {
-            System.out.println("Nenhum produto disponível.");
-        } else {
-            produtos.forEach(System.out::println);
-        }
-    }
-
-    public void saveProducts() {
-        repository.saveToFile();
-    }
-
-    public List<Product> loadProducts() {
-        repository.loadFromFile();
+    @Override
+    public List<Product> readAll() {
         return repository.readAll();
+    }
+
+    @Override
+    public Optional<Product> readById(long id) {
+        return repository.readById(id);
+    }
+
+    @Override
+    public void update(Product entity) {
+        repository.update(entity);
+    }
+
+    @Override
+    public void delete(long id) {
+        repository.delete(id);
+        for (Shelf shelf : shelfRepo.readAll()) {
+            if (shelf.getProduto() != null && shelf.getProduto().getId() == id) {
+                shelf.setProduto(null);
+                shelfRepo.update(shelf);
+            }
+        }
     }
 }

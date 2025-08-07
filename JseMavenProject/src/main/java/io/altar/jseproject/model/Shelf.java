@@ -3,13 +3,16 @@ package io.altar.jseproject.model;
 public class Shelf extends Entity {
     private String localizacao;
     private int capacidade;
-    private Product produto; // Apenas um tipo de produto
+    private long productId; // Agora guarda apenas o ID do produto
     private double precoDiario;
 
-    public Shelf(String localizacao, int capacidade, double precoDiario) {
+    public Shelf() {}
+
+    public Shelf(String localizacao, int capacidade, double precoDiario, long productId) {
         this.localizacao = localizacao;
         this.capacidade = capacidade;
         this.precoDiario = precoDiario;
+        this.productId = productId;
     }
 
     public String getLocalizacao() {
@@ -28,12 +31,12 @@ public class Shelf extends Entity {
         this.capacidade = capacidade;
     }
 
-    public Product getProduto() {
-        return produto;
+    public long getProductId() {
+        return productId;
     }
 
-    public void setProduto(Product produto) {
-        this.produto = produto;
+    public void setProductId(long productId) {
+        this.productId = productId;
     }
 
     public double getPrecoDiario() {
@@ -46,11 +49,10 @@ public class Shelf extends Entity {
 
     @Override
     public String toString() {
-        String nomeProduto = (produto != null) ? produto.getNome() : "Nenhum";
         return "Prateleira [id=" + id
              + ", localizacao=" + localizacao
              + ", capacidade=" + capacidade
-             + ", produto=" + nomeProduto
+             + ", productId=" + productId
              + ", precoDiario=" + precoDiario + "]";
     }
 }
