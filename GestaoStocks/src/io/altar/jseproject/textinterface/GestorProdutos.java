@@ -28,11 +28,16 @@ public class GestorProdutos {
         System.out.print("Preço do produto: ");
         double preco = Double.parseDouble(sc.nextLine());
 
-        System.out.print("O produto tem IVA? (s/n): ");
-        String ivaInput = sc.nextLine().trim().toLowerCase();
-        boolean temIVA = ivaInput.equals("s");
+        System.out.print("IVA do produto (6, 13 ou 23): ");
+        int iva = Integer.parseInt(sc.nextLine());
 
-        Product produto = new Product(nome, preco, temIVA);
+        System.out.print("Desconto (entre 0 e 1): ");
+        double desconto = Double.parseDouble(sc.nextLine());
+
+        System.out.print("ID da prateleira: ");
+        long shelfId = Long.parseLong(sc.nextLine());
+
+        Product produto = new Product(nome, preco, iva, desconto, shelfId);
         productRepo.create(produto);
 
         System.out.println("Produto criado com o ID: " + produto.getId());
@@ -54,15 +59,21 @@ public class GestorProdutos {
         String nome = sc.nextLine();
         if (!nome.isEmpty()) produto.setNome(nome);
 
-        System.out.print("Novo preço [" + produto.getPreco() + "]: ");
+        System.out.print("Novo preço [" + produto.getPrice() + "]: ");
         String precoStr = sc.nextLine();
-        if (!precoStr.isEmpty()) produto.setPreco(Double.parseDouble(precoStr));
+        if (!precoStr.isEmpty()) produto.setPrice(Double.parseDouble(precoStr));
 
-        System.out.print("Tem IVA? (s/n) [" + (produto.isTemIVA() ? "s" : "n") + "]: ");
-        String ivaInput = sc.nextLine().trim().toLowerCase();
-        if (ivaInput.equals("s") || ivaInput.equals("n")) {
-            produto.setTemIVA(ivaInput.equals("s"));
-        }
+        System.out.print("Novo IVA [" + produto.getIva() + "]: ");
+        String ivaStr = sc.nextLine();
+        if (!ivaStr.isEmpty()) produto.setIva(Integer.parseInt(ivaStr));
+
+        System.out.print("Novo desconto [" + produto.getDiscount() + "]: ");
+        String descontoStr = sc.nextLine();
+        if (!descontoStr.isEmpty()) produto.setDiscount(Double.parseDouble(descontoStr));
+
+        System.out.print("Nova prateleira [" + produto.getShelfId() + "]: ");
+        String shelfStr = sc.nextLine();
+        if (!shelfStr.isEmpty()) produto.setShelfId(Long.parseLong(shelfStr));
 
         productRepo.update(produto);
         System.out.println("Produto atualizado.");

@@ -1,14 +1,21 @@
 package io.altar.jseproject.model;
 
 public class Product extends Entity {
-    private String nome;
-    private double preco;
-    private boolean temIVA;
 
-    public Product(String nome, double preco, boolean temIVA) {
-        this.nome = nome;
-        this.preco = preco;
-        this.temIVA = temIVA;
+    private String nome;
+    private double price;
+    private int iva;
+    private double discount;
+    private long shelfId;
+
+    public Product() {}
+
+    public Product(String nome, double price, int iva, double discount, long shelfId) {
+        setNome(nome);
+        setPrice(price);
+        setIva(iva);
+        setDiscount(discount);
+        this.shelfId = shelfId;
     }
 
     public String getNome() {
@@ -16,27 +23,55 @@ public class Product extends Entity {
     }
 
     public void setNome(String nome) {
+        if (nome == null || nome.trim().isEmpty()) {
+            throw new RuntimeException("O nome do produto não pode estar vazio.");
+        }
         this.nome = nome;
     }
 
-    public double getPreco() {
-        return preco;
+    public double getPrice() {
+        return price;
     }
 
-    public void setPreco(double preco) {
-        this.preco = preco;
+    public void setPrice(double price) {
+        if (price <= 0) {
+            throw new RuntimeException("O preço deve ser maior que 0.");
+        }
+        this.price = price;
     }
 
-    public boolean isTemIVA() {
-        return temIVA;
+    public int getIva() {
+        return iva;
     }
 
-    public void setTemIVA(boolean temIVA) {
-        this.temIVA = temIVA;
+    public void setIva(int iva) {
+        if (iva != 6 && iva != 13 && iva != 23) {
+            throw new RuntimeException("IVA inválido. Apenas 6%, 13% ou 23% são aceites.");
+        }
+        this.iva = iva;
     }
 
-    
+    public double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(double discount) {
+        if (discount < 0 || discount > 1) {
+            throw new RuntimeException("O desconto deve estar entre 0% e 100% (0 a 1).");
+        }
+        this.discount = discount;
+    }
+
+    public long getShelfId() {
+        return shelfId;
+    }
+
+    public void setShelfId(long shelfId) {
+        this.shelfId = shelfId;
+    }
+
+    @Override
     public String toString() {
-        return "Produto [id=" + id + ", nome=" + nome + ", preco=" + preco + ", IVA=" + temIVA + "]";
+        return "Produto [ID=" + id + ", Nome=" + nome + ", Preço=" + price + "€, IVA=" + iva + "%, Desconto=" + (discount * 100) + "%, Prateleira=" + shelfId + "]";
     }
 }
