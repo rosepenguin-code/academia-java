@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.enterprise.context.ApplicationScoped;
+
+@ApplicationScoped
 public class ShelfDataHandler {
     private final String file = "shelves.csv";
 
@@ -24,13 +27,14 @@ public class ShelfDataHandler {
                     parts[1],                         // localizacao
                     Integer.parseInt(parts[2]),       // capacidade
                     Double.parseDouble(parts[4])      // precoDiario
+                    , null
                 );
                 s.setId(Long.parseLong(parts[0]));
 
                 // Associa o produto se existir
                 Long productId = parts[3].equals("null") ? null : Long.parseLong(parts[3]);
                 if (productId != null && productMap.containsKey(productId)) {
-                    s.setProduto(productMap.get(productId));
+                    s.setProduct(productMap.get(productId));
                 }
 
                 shelves.add(s);
@@ -45,7 +49,7 @@ public class ShelfDataHandler {
     public void saveShelves(List<Shelf> shelves) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
             for (Shelf s : shelves) {
-                String productId = (s.getProduto() != null) ? String.valueOf(s.getProduto().getId()) : "null";
+                String productId = (s.getProduct() != null) ? String.valueOf(s.getProduct().getId()) : "null";
                 bw.write(s.getId() + ";" + s.getLocalizacao() + ";" + s.getCapacidade() + ";" + productId + ";" + s.getPrecoDiario());
                 bw.newLine();
             }

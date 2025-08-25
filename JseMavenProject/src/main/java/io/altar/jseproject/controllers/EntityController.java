@@ -3,46 +3,40 @@ package io.altar.jseproject.controllers;
 import java.util.List;
 import java.util.Optional;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import io.altar.jseproject.business.EntityManager;
-import io.altar.jseproject.model.Entity;
+import io.altar.jseproject.business.EntityService;
+import io.altar.jseproject.model.Entity_;
 
-public abstract class EntityController<M extends EntityManager<T>, T extends Entity> {
+public abstract class EntityController<M extends EntityService<?, T>, T extends Entity_> {
 
-    protected M repository;
+    protected final M manager;
+
+    public EntityController(M manager) {
+        this.manager = manager;
+    }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<T> getAll() {
-        return repository.readAll();
+        return manager.readAll();
     }
 
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getById(@PathParam("id") long id) {
-        Optional<T> entity = repository.readById(id);
-        if (entity.isPresent()) {
-            return Response.ok(entity.get()).build();
-        } else {
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
+        Optional<T> entity = manager.readById(id);
+        return entity.map(value -> Response.ok(value).build())
+                     .orElse(Response.status(Response.Status.NOT_FOUND).build());
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response create(T entity) {
-        long id = repository.create(entity);
+        long id = manager.create(entity);
         return Response.status(Response.Status.CREATED).entity("Criado com ID: " + id).build();
     }
 
@@ -51,14 +45,15 @@ public abstract class EntityController<M extends EntityManager<T>, T extends Ent
     @Consumes(MediaType.APPLICATION_JSON)
     public Response update(@PathParam("id") long id, T entity) {
         entity.setId(id);
-        repository.update(entity);
+        manager.update(entity);
         return Response.ok("Atualizado com ID: " + id).build();
     }
 
     @DELETE
     @Path("/{id}")
     public Response delete(@PathParam("id") long id) {
-        repository.delete(id);
+        manager.delete(id);
         return Response.ok("Removido ID: " + id).build();
     }
 }
+

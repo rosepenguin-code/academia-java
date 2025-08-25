@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import io.altar.jseproject.model.Entity;
+import io.altar.jseproject.model.Entity_;
 
-public abstract class EntityRepository<T extends Entity> {
+public abstract class EntityRepository<T extends Entity_> {
 
     protected List<T> entities = new ArrayList<>();
     private static long currentId = 1;
@@ -59,7 +59,7 @@ public abstract class EntityRepository<T extends Entity> {
 
     // Encontrar entidade por ID com Optional
     public Optional<T> readById(long id) {
-        for (T entity : entities) { 
+        for (T entity : entities) {
             if (entity.getId() == id) {
                 return Optional.of(entity);
             }
@@ -70,7 +70,7 @@ public abstract class EntityRepository<T extends Entity> {
     // Obter todos os IDs
     public List<Long> getAllIds() {
         return entities.stream()
-            .map(Entity::getId)
+            .map(Entity_::getId)
             .collect(Collectors.toList());
     }
 

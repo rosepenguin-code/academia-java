@@ -1,29 +1,58 @@
 package io.altar.jseproject.repositories;
 
 import io.altar.jseproject.model.Shelf;
-import io.altar.jseproject.model.Product;
-import io.altar.jseproject.repositories.interfaces.ShelfRepositoryCRUD_Interface;
-import io.altar.jseproject.integration.ShelfDataHandler;
 
-import javax.enterprise.context.ApplicationScoped;
-import java.util.HashMap;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
-@ApplicationScoped
-public class ShelfRepository extends EntityRepository<Shelf> implements ShelfRepositoryCRUD_Interface {
+@Stateless
+public class ShelfRepository {
 
-    private final ShelfDataHandler dataHandler = new ShelfDataHandler();
+    @PersistenceContext(unitName = "stockPU")
+    private EntityManager em;
 
-    public void saveToFile() {
-        dataHandler.saveShelves(entities);
+    public long create(Shelf shelf) {
+        em.persist(shelf);
+        return shelf.getId();
     }
 
-    public void loadFromFile(List<Product> products) {
-        Map<Long, Product> productMap = new HashMap<>();
-        for (Product p : products) {
-            productMap.put(p.getId(), p);
+    public Shelf findById(long id) {
+        return em.find(Shelf.class, id);
+    }
+
+    public List<Shelf> findAll() {
+        return em.createQuery("SELECT s FROM Shelf s", Shelf.class).getResultList();
+    }
+
+    public Shelf update(Shelf shelf) {
+        return em.merge(shelf);
+    }
+
+    public void delete(long id) {
+        Shelf s = em.find(Shelf.class, id);
+        if (s != null) {
+            em.remove(s);
         }
-        entities = dataHandler.loadShelves(productMap);
+    }
+
+    public void clearProductFromShelves(long productId) {
+        List<Shelf> shelves = findAll();
+        for (Shelf s : shelves) {
+            if (s.getProduct() != null && s.getProduct().getId() == productId) {
+                s.setProduct(null);
+                update(s);
+            }
+        }
+    }
+
+    public List<Shelf> readAll() {
+        return findAll();
+    }
+
+    public Optional<Shelf> readById(long id) {
+        return Optional.ofNullable(findById(id));
     }
 }

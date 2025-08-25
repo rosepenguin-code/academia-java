@@ -1,52 +1,54 @@
 package io.altar.jseproject.business;
 
 import io.altar.jseproject.model.Product;
-import io.altar.jseproject.model.Shelf;
 import io.altar.jseproject.repositories.ProductRepository;
-import io.altar.jseproject.repositories.ShelfRepository;
 
-import javax.enterprise.context.ApplicationScoped;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.util.List;
 import java.util.Optional;
 
-@ApplicationScoped
-public class ProductManager extends EntityManager<Product> {
+@Stateless
+public class ProductManager {
 
     @Inject
-    ProductRepository repository;
+    private ProductRepository repository;
 
-    @Inject
-    ShelfRepository shelfRepo;
-
-    @Override
-    public long create(Product entity) {
-        return repository.create(entity);
+    public long create(Product product) {
+        return repository.create(product);
     }
 
-    @Override
+    public Product findById(long id) {
+        try {
+            return repository.findById(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null; // evita o crash do controller
+        }
+    }
+
+
+    public List<Product> findAll() {
+        return repository.findAll();
+    }
+
+    public Product update(Product product) {
+        return repository.update(product);
+    }
+
+    public void delete(long id) {
+        repository.delete(id);
+    }
+
+    public List<Long> getShelfIdsByProductId(long productId) {
+        return repository.getShelfIdsByProductId(productId);
+    }
+
     public List<Product> readAll() {
         return repository.readAll();
     }
 
-    @Override
-    public Optional<Product> readById(long id) {
+    public Optional<Product> readByIdOptional(long id) {
         return repository.readById(id);
-    }
-
-    @Override
-    public void update(Product entity) {
-        repository.update(entity);
-    }
-
-    @Override
-    public void delete(long id) {
-        repository.delete(id);
-        for (Shelf shelf : shelfRepo.readAll()) {
-            if (shelf.getProduto() != null && shelf.getProduto().getId() == id) {
-                shelf.setProduto(null);
-                shelfRepo.update(shelf);
-            }
-        }
     }
 }

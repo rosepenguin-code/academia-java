@@ -1,23 +1,45 @@
 package io.altar.jseproject.model;
 
-public class Product extends Entity {
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Table(name = "products")
+public class Product extends Entity_ {
+
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String nome;
-	private double preco;
-	private boolean temIVA;
-	private double discount; // Valor entre 0.0 e 1.0
-	
-	
-	public Product() {}
+    private double preco;
+    private boolean temIVA;
+    private double discount;
 
-	// Construtor
-	public Product(String nome, double preco, boolean temIVA) {
-		this.nome = nome;
-		this.preco = preco;
-		this.temIVA = temIVA;
-		this.discount = 0.0;
-	}
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Shelf> shelves = new ArrayList<>();
 
-	// Getters e Setters
+    public Product() {}
+
+    public Product(String nome, double preco, boolean temIVA) {
+        this.nome = nome;
+        this.preco = preco;
+        this.temIVA = temIVA;
+        this.discount = 0.0;
+    }
+
+    // getters e setters
+
+    @Override
+    public String toString() {
+        return "Produto [ID=" + getId()
+             + ", Nome=" + nome
+             + ", Preço=" + preco
+             + ", Tem IVA=" + temIVA
+             + ", Desconto=" + (discount * 100) + "%]";
+    }
+
 	public String getNome() {
 		return nome;
 	}
@@ -34,6 +56,25 @@ public class Product extends Entity {
 		this.preco = preco;
 	}
 
+	public double getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(double discount) {
+	    if (discount < 0 || discount > 1) { // porque no teste uso 0.25 para 25%
+	        throw new RuntimeException("O desconto tem de estar entre 0% e 100% (0.0 a 1.0).");
+	    }
+	    this.discount = discount;
+	}
+
+	public List<Shelf> getShelves() {
+		return shelves;
+	}
+
+	public void setShelves(List<Shelf> shelves) {
+		this.shelves = shelves;
+	}
+
 	public boolean isTemIVA() {
 		return temIVA;
 	}
@@ -42,23 +83,9 @@ public class Product extends Entity {
 		this.temIVA = temIVA;
 	}
 
-	public double getDiscount() {
-		return discount;
+	public Object map(Object object) {
+		// TODO Auto-generated method stub
+		return null;
 	}
-
-	public void setDiscount(double discount) {
-		if (discount < 0.0 || discount > 1.0) {
-			throw new RuntimeException("Desconto inválido: deve estar entre 0.0 e 1.0");
-		}
-		this.discount = discount;
-	}
-
-	@Override
-	public String toString() {
-		return "Produto [ID=" + getId()
-			 + ", Nome=" + nome
-			 + ", Preço=" + preco
-			 + ", Tem IVA=" + temIVA
-			 + ", Desconto=" + (discount * 100) + "%]";
-	}
+	
 }

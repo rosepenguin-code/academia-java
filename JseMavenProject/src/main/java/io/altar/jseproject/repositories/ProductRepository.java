@@ -1,28 +1,56 @@
 package io.altar.jseproject.repositories;
 
 import io.altar.jseproject.model.Product;
-import io.altar.jseproject.repositories.interfaces.ProductRepositoryCRUD_Interface;
-import io.altar.jseproject.integration.ProductDataHandler;
 
-import javax.enterprise.context.ApplicationScoped;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.util.Optional;
 
-@ApplicationScoped
-public class ProductRepository extends EntityRepository<Product> implements ProductRepositoryCRUD_Interface {
+@Stateless
+public class ProductRepository {
 
-    private final ProductDataHandler dataHandler = new ProductDataHandler();
+    @PersistenceContext(unitName = "stockPU")
+    private EntityManager em;
 
-    @Override
+    public long create(Product product) {
+        em.persist(product);
+        return product.getId();
+    }
+
+    public Product findById(long id) {
+        return em.find(Product.class, id); // Product.class deve ser a tua entidade correta
+    }
+
+    public List<Product> findAll() {
+        return em.createQuery("SELECT p FROM Product p", Product.class).getResultList();
+    }
+
+    public Product update(Product product) {
+        return em.merge(product);
+    }
+
+    public void delete(long id) {
+        Product p = em.find(Product.class, id);
+        if (p != null) {
+            em.remove(p);
+        }
+    }
+
     public List<Long> getShelfIdsByProductId(long productId) {
-        // Placeholder, como tinhas
-        return null;
+        return em.createQuery(
+                "SELECT s.id FROM Shelf s WHERE s.product.id = :pid", Long.class)
+                .setParameter("pid", productId)
+                .getResultList();
     }
 
-    public void saveToFile() {
-        dataHandler.saveProducts(entities);
+    // Métodos adicionais consistentes
+    public List<Product> readAll() {
+        return findAll();
     }
 
-    public void loadFromFile() {
-        entities = dataHandler.loadProducts();
+    public Optional<Product> readById(long id) {
+        return Optional.ofNullable(findById(id));
     }
 }

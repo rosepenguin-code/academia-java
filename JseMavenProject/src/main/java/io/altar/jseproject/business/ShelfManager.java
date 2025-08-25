@@ -1,54 +1,72 @@
 package io.altar.jseproject.business;
 
-import io.altar.jseproject.model.Shelf;
-import io.altar.jseproject.model.Product;
-import io.altar.jseproject.repositories.ShelfRepository;
-import io.altar.jseproject.repositories.ProductRepository;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import java.util.List;
-import java.util.Optional;
 
-@ApplicationScoped
-public class ShelfManager extends EntityManager<Shelf> {
+import javax.ejb.Stateless;
+import javax.inject.Inject;
+
+import io.altar.jseproject.dtos.ShelfDTO;
+import io.altar.jseproject.model.Product;
+import io.altar.jseproject.model.Shelf;
+import io.altar.jseproject.repositories.ShelfRepository;
+
+@Stateless
+public class ShelfManager {
 
     @Inject
-    ShelfRepository repository;
+    private ShelfRepository repository;
 
+    @SuppressWarnings("cdi-ambiguous-dependency")
     @Inject
-    ProductRepository productRepo;
+    private ProductManager productManager; // para buscar produtos existentes
 
-    @Override
+    // Criar shelf
     public long create(Shelf shelf) {
-        if (shelf.getProduto() != null && shelf.getProduto().getId() > 0) {
-            Optional<Product> produto = productRepo.readById(shelf.getProduto().getId());
-            produto.ifPresent(shelf::setProduto);
-        }
         return repository.create(shelf);
     }
 
-    @Override
+    // Encontrar shelf por id
+    public Shelf findById(long id) {
+        return repository.findById(id);
+    }
+
+    // Ler todas as shelves
     public List<Shelf> readAll() {
-        return repository.readAll();
+        return repository.findAll();
     }
 
-    @Override
-    public Optional<Shelf> readById(long id) {
-        return repository.readById(id);
+    // Atualizar shelf
+    public Shelf update(Shelf shelf) {
+        return repository.update(shelf);
     }
 
-    @Override
-    public void update(Shelf shelf) {
-        if (shelf.getProduto() != null && shelf.getProduto().getId() > 0) {
-            Optional<Product> produto = productRepo.readById(shelf.getProduto().getId());
-            produto.ifPresent(shelf::setProduto);
-        }
-        repository.update(shelf);
-    }
-
-    @Override
+    // Apagar shelf
     public void delete(long id) {
         repository.delete(id);
+    }
+
+    // Limpar produto de todas as shelves
+    public void clearProductFromShelves(long productId) {
+        repository.clearProductFromShelves(productId);
+    }
+
+    // Converter DTO para entidade
+    public Shelf fromDTO(ShelfDTO dto) {
+        Product product = null;
+        if (dto.getProdutoId() != null) {
+            product = productManager.findById(dto.getProdutoId());
+            if (product == null) {
+                throw new IllegalArgumentException("Produto com id " + dto.getProdutoId() + " não existe.");
+            }
+        }
+
+        Shelf shelf = new Shelf(dto.getLocalizacao(), dto.getCapacidade(), dto.getPrecoDiario(), product);
+
+        // Se dto.getId() > 0, define o id (para update)
+        if (dto.getId() > 0) {
+            shelf.setId(dto.getId());
+        }
+
+        return shelf;
     }
 }
